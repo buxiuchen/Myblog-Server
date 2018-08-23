@@ -10,8 +10,8 @@ var mongoose=require('mongoose')
 let blog=require('./modules/blog')
 let user=require('./modules/user')
 const options={
-    user : "admin",
-    pass : "cs6296854", 
+    user : "***",
+    pass : "***", 
 }
 var methods={
     getmd5:function(value){
