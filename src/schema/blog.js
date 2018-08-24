@@ -7,8 +7,11 @@ var blogSchema=new mongoose.Schema({
 },{ collection: 'article' })
 
 blogSchema.statics={
-    fetch:function(cb){//返回所有
-        return this.find({}).sort({createtime:-1}).exec(cb);
+    fetch:function(page,cb){//返回所有
+        return this.find({}).sort({createtime:-1}).skip((parseInt(page)-1)*10).limit(10).exec(cb);
+    },
+    blogcount:function(cb){
+        return this.find({}).count().exec(cb);
     },
     findBytitle:function(title,cb){//通过标题返回文章详情
         return this.findOne({title:title}).exec(cb);

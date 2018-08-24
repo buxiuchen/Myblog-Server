@@ -62,13 +62,21 @@ app.get('', function (req, res) {
     res.sendFile()(html);
   });
 
-app.post('/api',function(req,res){
+app.post('/api',urlencodedParser,function(req,res){
     res.set('Access-Control-Allow-Origin','*');
-    blog.fetch(function(err,blog){
+    blog.fetch(req.body.page,function(err,blogpart){
         if (err){
             console.log(err)
         }
-        res.json(blog);
+        // console.log(blogpart);
+        blog.blogcount(function(err,count){
+            let result={
+                count:count,
+                data:blogpart
+            }
+            res.json(result)
+        })
+        
     })
 
 })
@@ -114,7 +122,6 @@ app.post('/api/check',urlencodedParser,function(req,res){
         }else{
             if(loginer.password===req.body.password){
                 let condition ={user:loginer.user};
-                console.log(condition)
                 let update={
                         $set : {
                             token:methods.getmd5(new Date()+user._id),
@@ -260,7 +267,6 @@ app.post('/api/addart',urlencodedParser,function(req,res){
                 console.log(err)
                 res.json({status:0});
             }else{
-                console.log(200)
                 res.json({status:200});
             } 
            
